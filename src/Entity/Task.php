@@ -21,7 +21,7 @@ class Task
     private ?string $description = null;
 
     #[ORM\Column(length: 20)]
-    private ?string $status = null;
+    private ?string $status = "New";
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
