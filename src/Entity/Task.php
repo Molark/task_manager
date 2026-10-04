@@ -5,27 +5,41 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
+    #[Groups(groups: ['task:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    #[Groups(groups: ['task:item'])]
+    #[Assert\Length(min: 1, max: 255)]
+    #[Assert\NotBlank(allowNull: null, normalizer: 'trim')]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
-
+    #[Groups(groups: ['task:item'])]
+    #[Assert\NotBlank(allowNull: null, normalizer: 'trim')]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
+    #[Groups(groups: ['task:item'])]
     #[ORM\Column(length: 20)]
+    #[Assert\Choice(
+        choices: ['New', 'In-progress', 'Done', 'Archive'],
+        message: 'Выберите корректный статус задачи: New, In-progress, Done или Archive.'
+    )]
     private ?string $status = "New";
-
+    #[Groups(groups: ['task:item'])]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Groups(groups: ['task:item'])]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 

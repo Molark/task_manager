@@ -5,18 +5,23 @@ namespace App\Entity;
 use App\Repository\StatusRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: StatusRepository::class)]
 class Status
 {
+    #[Groups(groups: ['status:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
+    #[Groups(groups: ['status:item'])]
+    #[Assert\NotBlank(allowNull: null, normalizer: 'trim')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
+    #[Groups(groups: ['status:item'])]
+    #[Assert\NotBlank(allowNull: null, normalizer: 'trim')]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $title = null;
 
