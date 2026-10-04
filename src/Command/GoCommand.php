@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Task;
+use App\Factory\TaskFactory;
 use App\Resource\TaskResource;
 use App\ResponseBuilder\TaskResponseBuilder;
 use App\Service\TaskService;
@@ -29,6 +30,7 @@ class GoCommand{
         EntityManagerInterface $em,
         TaskValidator $taskValidator,
         TaskResponseBuilder $taskResponseBuilder,
+        TaskFactory $taskFactory,
 
     ): int {
        $data = [
@@ -38,13 +40,8 @@ class GoCommand{
            'created_at' => '2027-01-09',
            'updated_at' => '2029-08-09',
        ];
-        $task = new Task();
-        $task->setTitle($data['title']);
-        $task->setDescription($data['description']);
-        $task->setStatus($data['status']);
-        $task->setCreatedAt(new \DateTimeImmutable( $data['created_at']));
-        $task->setUpdatedAt(new \DateTimeImmutable($data['updated_at']));
 
+        $task = $taskFactory->makeTask($data);
         $taskValidator->validate($task);
 
         $task = $taskService->save($task);
