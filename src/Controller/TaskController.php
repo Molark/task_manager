@@ -46,7 +46,7 @@ final class TaskController extends AbstractController
         $task = $this->taskService->save($saveTaskInputDTO);
         return $this->taskResponseBuilder->saveTask($task);
     }
-    #[Route('/api/tasks/{task}/status', name: 'UpdateTask', methods: ['PATCH'])]
+    #[Route('/api/tasks/{task}/status', name: 'UpdateTaskStatus', methods: ['PATCH'])]
     public function UpdateTask(Task $task, Request $request,): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -54,5 +54,16 @@ final class TaskController extends AbstractController
         $this->taskDtoValidator->validate($updateTaskStatusInputDTO);
         $task = $this->taskService->updateStatus($task, $updateTaskStatusInputDTO);
         return $this->taskResponseBuilder->updateTask($task);
+    }
+    #[Route('/api/tasks/{taskId}', name: 'DeleteTask', methods: ['DELETE'])]
+    public function DeleteTask(int $taskId): JsonResponse
+    {
+
+        $task = $this->taskService->findTaskById($taskId);
+        if (!$task) {
+            return $this->taskResponseBuilder->taskNotFound();
+        }
+        $this->taskService->deleteTask($task);
+        return $this->taskResponseBuilder->deleteTask();
     }
 }

@@ -28,6 +28,13 @@ class TaskRepository extends ServiceEntityRepository
         }
         return $task;
     }
+    public function delete(Task $task, $isFlush = true): void
+    {
+        $this->em->remove($task);
+        if ($isFlush) {
+            $this->em->flush();
+        }
+    }
 
 //    /**
 //     * @return Task[] Returns an array of Task objects

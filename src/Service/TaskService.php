@@ -32,5 +32,11 @@ class TaskService
         $task = $this->taskFactory->updateTaskStatus($task, $updateTaskStatusInputDTO);
         return $this->taskRepository->save($task);
     }
-
+    public function deleteTask(Task $task) : void {
+        $this->taskRepository->delete($task);
+    }
+    public function findTaskById(int $id): ?Task
+    {
+        return $this->taskRepository->find($id);
+    }
 }

@@ -35,4 +35,10 @@ class TaskResponseBuilder
         $response = $this->taskResource->taskItem($taskOutputDTO);
         return new JsonResponse($response, $status, $headers, $isJson);
     }
+    public function deleteTask($status = 204, $headers = [], $isJson = true): JsonResponse{
+        return new JsonResponse("", $status, $headers, $isJson);
+    }
+    public function taskNotFound($status = 404, $headers = [], $isJson = false): JsonResponse{
+        return new JsonResponse("Task not found", $status, $headers, $isJson);
+    }
 }
