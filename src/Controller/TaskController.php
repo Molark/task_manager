@@ -7,7 +7,7 @@ use App\Factory\TaskFactory;
 use App\Repository\TaskRepository;
 use App\ResponseBuilder\TaskResponseBuilder;
 use App\Service\TaskService;
-use App\Validator\TaskValidator;
+use App\DTOValidator\TaskDTOValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,11 +36,11 @@ final class TaskController extends AbstractController
         return $this -> taskResponseBuilder->getTask($task);
     }
     #[Route('/api/tasks', name: 'CreateTask', methods: ['POST'])]
-    public function CreateTask(Request $request,
-        TaskService $taskService,
-        TaskValidator $taskValidator,
-        TaskResponseBuilder $taskResponseBuilder,
-        TaskFactory $taskFactory): JsonResponse
+    public function CreateTask(Request             $request,
+                               TaskService         $taskService,
+                               TaskDTOValidator    $taskValidator,
+                               TaskResponseBuilder $taskResponseBuilder,
+                               TaskFactory         $taskFactory): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $saveTaskInputDTO = $taskFactory->makeSaveTaskInputDTO($data);

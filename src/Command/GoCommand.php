@@ -7,7 +7,7 @@ use App\Factory\TaskFactory;
 use App\Resource\TaskResource;
 use App\ResponseBuilder\TaskResponseBuilder;
 use App\Service\TaskService;
-use App\Validator\TaskValidator;
+use App\DTOValidator\TaskDTOValidator;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Entity;
@@ -25,24 +25,24 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 )]
 class GoCommand{
     public function __invoke(
-        SymfonyStyle $io,
-        TaskService $taskService,
+        SymfonyStyle           $io,
+        TaskService            $taskService,
         EntityManagerInterface $em,
-        TaskValidator $taskValidator,
-        TaskResponseBuilder $taskResponseBuilder,
-        TaskFactory $taskFactory,
+        TaskDTOValidator       $taskValidator,
+        TaskResponseBuilder    $taskResponseBuilder,
+        TaskFactory            $taskFactory,
 
     ): int {
        $data = [
         'title' => 'asd',
            'description' => 'noasd',
-           'status' => "testStatus",
+           'status' => "a",
            'created_at' => '2027-01-09',
            'updated_at' => '2029-08-09',
        ];
         //request
         $saveTaskInputDTO = $taskFactory->makeSaveTaskInputDTO($data);
-        $taskValidator->validate($saveTaskInputDTO );
+        $taskValidator->validate($saveTaskInputDTO);
 
         $task = $taskService->save($saveTaskInputDTO);
         $resp = $taskResponseBuilder->saveTask($task);

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Validator;
+namespace App\DTOValidator;
 
 use App\DTO\Input\Task\SaveTaskInputDTO;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class TaskValidator
+class TaskDTOValidator
 {
     public function __construct(private ValidatorInterface $validator)
     {

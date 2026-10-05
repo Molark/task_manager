@@ -3,7 +3,7 @@
 namespace App\DTO\Input\Task;
 
 use App\DTO\Input\Assert;
-use App\Entity\Status;
+use App\Validator\Constraint\StatusExists;
 
 class SaveTaskInputDTO
 {
@@ -16,6 +16,7 @@ class SaveTaskInputDTO
 
 
     #[Assert\NotNull(allowNull: null)]
+    #[StatusExists]
     public string $statusName = "New";
 
 
