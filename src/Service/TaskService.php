@@ -2,21 +2,29 @@
 
 namespace App\Service;
 
+use App\DTO\Input\Task\SaveTaskInputDTO;
 use App\Entity\Task;
+use App\Factory\TaskFactory;
 use App\Repository\TaskRepository;
-use Doctrine\ORM\EntityManagerInterface;
 
 class TaskService
 {
     public function __construct(
         private TaskRepository $taskRepository,
+        private TaskFactory $taskFactory,
     )
     {
     }
-    public function save(Task $task): Task
+
+
+    public function getTasks() :array {
+        return $this->taskRepository->findAll();
+    }
+
+    public function save(SaveTaskInputDTO $saveTaskInputDTO ): Task
     {
-        $task = $this->taskRepository->save($task);
-        return $task;
+        $task = $this->taskFactory->makeTask($saveTaskInputDTO);
+        return $this->taskRepository->save($task);
     }
 
 

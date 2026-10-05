@@ -21,7 +21,8 @@
         "symfony/runtime": "8.1.*",
         "symfony/serializer": "8.1.*",
         "symfony/validator": "8.1.*",
-        "symfony/yaml": "8.1.*"
+        "symfony/yaml": "8.1.*",
+        "ext-http": "*"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.68"

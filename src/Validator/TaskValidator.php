@@ -2,8 +2,7 @@
 
 namespace App\Validator;
 
-use App\Entity\Task;
-
+use App\DTO\Input\Task\SaveTaskInputDTO;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class TaskValidator
@@ -13,7 +12,7 @@ class TaskValidator
 
     }
 
-    public  function validate(Task $task) : void
+    public  function validate(SaveTaskInputDTO $task) : void
  {
     $errors = $this->validator->validate($task);
     if (count($errors) > 0) {

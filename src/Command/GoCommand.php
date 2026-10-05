@@ -36,17 +36,18 @@ class GoCommand{
        $data = [
         'title' => 'asd',
            'description' => 'noasd',
-           'status' => 'New',
+           'status' => "testStatus",
            'created_at' => '2027-01-09',
            'updated_at' => '2029-08-09',
        ];
+        //request
+        $saveTaskInputDTO = $taskFactory->makeSaveTaskInputDTO($data);
+        $taskValidator->validate($saveTaskInputDTO );
 
-        $task = $taskFactory->makeTask($data);
-        $taskValidator->validate($task);
-
-        $task = $taskService->save($task);
+        $task = $taskService->save($saveTaskInputDTO);
         $resp = $taskResponseBuilder->saveTask($task);
         dd($resp);
         return Command::SUCCESS;
     }
 }
+
