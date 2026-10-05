@@ -2,20 +2,20 @@
 
 namespace App\DTO\Input\Task;
 
-use App\DTO\Input\Assert;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\Constraint\StatusExists;
 
 class SaveTaskInputDTO
 {
     #[Assert\Length(min: 1, max: 255)]
-    #[Assert\NotBlank(allowNull: null, normalizer: 'trim')]
+    #[Assert\NotBlank(normalizer: 'trim')]
     public ?string $title = null;
 
-    #[Assert\NotBlank(allowNull: null, normalizer: 'trim')]
+    #[Assert\NotBlank(normalizer: 'trim')]
     public ?string $description = null;
 
 
-    #[Assert\NotNull(allowNull: null)]
+    #[Assert\NotNull]
     #[StatusExists]
     public string $statusName = "New";
 

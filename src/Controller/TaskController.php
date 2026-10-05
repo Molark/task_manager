@@ -18,7 +18,9 @@ final class TaskController extends AbstractController
 {
     public function __construct(
         private TaskService $taskService,
-        private TaskResponseBuilder $taskResponseBuilder
+        private TaskResponseBuilder $taskResponseBuilder,
+        private TaskDtoValidator $taskDtoValidator,
+        private TaskFactory $taskFactory
     )
     {
     }
@@ -36,16 +38,12 @@ final class TaskController extends AbstractController
         return $this -> taskResponseBuilder->getTask($task);
     }
     #[Route('/api/tasks', name: 'CreateTask', methods: ['POST'])]
-    public function CreateTask(Request             $request,
-                               TaskService         $taskService,
-                               TaskDTOValidator    $taskValidator,
-                               TaskResponseBuilder $taskResponseBuilder,
-                               TaskFactory         $taskFactory): JsonResponse
+    public function CreateTask(Request $request,): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        $saveTaskInputDTO = $taskFactory->makeSaveTaskInputDTO($data);
-        $taskValidator->validate($saveTaskInputDTO );
-        $task = $taskService->save($saveTaskInputDTO);
-        return $taskResponseBuilder->saveTask($task);
+        $saveTaskInputDTO = $this->taskFactory->makeSaveTaskInputDTO($data);
+        $this->taskDtoValidator->validate($saveTaskInputDTO );
+        $task = $this->taskService->save($saveTaskInputDTO);
+        return $this->taskResponseBuilder->saveTask($task);
     }
 }

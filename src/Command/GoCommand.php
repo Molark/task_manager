@@ -34,9 +34,8 @@ class GoCommand{
 
     ): int {
        $data = [
-        'title' => 'asd',
            'description' => 'noasd',
-           'status' => "a",
+           'status' => "testStatus",
            'created_at' => '2027-01-09',
            'updated_at' => '2029-08-09',
        ];

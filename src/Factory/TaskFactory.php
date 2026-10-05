@@ -32,11 +32,11 @@ class TaskFactory
     {
         $task = new SaveTaskInputDTO();
 
-        $task->title = $data['title'];
-        $task->description = $data['description'];
-        $task->statusName = $data['status'];
-        $task->createdAt = new \DateTimeImmutable($data['created_at']);
-        $task->updatedAt = new  \DateTimeImmutable($data['updated_at']);
+        $task->title = $data['title'] ?? null;
+        $task->description = $data['description'] ?? null;
+        $task->statusName = $data['status'] ?? null;
+        $task->createdAt = new \DateTimeImmutable($data['created_at']) ?? null;
+        $task->updatedAt = new  \DateTimeImmutable($data['updated_at']) ?? null;
         return $task;
     }
 
