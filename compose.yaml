@@ -1,11 +1,21 @@
-
 services:
-###> doctrine/doctrine-bundle ###
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://app:password@database:5432/app?serverVersion=16&charset=utf8
+    command: >
+      sh -c "php bin/console doctrine:migrations:migrate --no-interaction &&
+             php bin/console doctrine:fixtures:load --no-interaction &&
+             php -S 0.0.0.0:8000 -t public"
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
       POSTGRES_USER: ${POSTGRES_USER:-app}
     healthcheck:
@@ -15,11 +25,6 @@ services:
       start_period: 60s
     volumes:
       - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
 
 volumes:
-###> doctrine/doctrine-bundle ###
   database_data:
-###< doctrine/doctrine-bundle ###
