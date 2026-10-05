@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\DTO\Input\Task\SaveTaskInputDTO;
+use App\DTO\Input\Task\UpdateTaskStatusInputDTO;
 use App\Entity\Task;
 use App\Factory\TaskFactory;
 use App\Repository\TaskRepository;
@@ -26,6 +27,10 @@ class TaskService
         $task = $this->taskFactory->makeTask($saveTaskInputDTO);
         return $this->taskRepository->save($task);
     }
-
+    public function updateStatus(Task $task, UpdateTaskStatusInputDTO $updateTaskStatusInputDTO ): Task
+    {
+        $task = $this->taskFactory->updateTaskStatus($task, $updateTaskStatusInputDTO);
+        return $this->taskRepository->save($task);
+    }
 
 }

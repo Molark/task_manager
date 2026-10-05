@@ -16,7 +16,6 @@ class TaskResponseBuilder
     public function saveTask(Task $task, $status = 201, $headers = [], $isJson = true): JsonResponse{
 
         $taskOutputDTO=$this->taskFactory->makeTaskOutputDTO($task);
-
         $response = $this->taskResource->taskItem($taskOutputDTO);
         return new JsonResponse($response, $status, $headers, $isJson);
     }
@@ -26,6 +25,12 @@ class TaskResponseBuilder
         return new JsonResponse($response, $status, $headers, $isJson);
     }
     public function getTask(Task $task, $status = 200, $headers = [], $isJson = true): JsonResponse{
+        $taskOutputDTO=$this->taskFactory->makeTaskOutputDTO($task);
+        $response = $this->taskResource->taskItem($taskOutputDTO);
+        return new JsonResponse($response, $status, $headers, $isJson);
+    }
+    public function updateTask(Task $task, $status = 200, $headers = [], $isJson = true): JsonResponse{
+
         $taskOutputDTO=$this->taskFactory->makeTaskOutputDTO($task);
         $response = $this->taskResource->taskItem($taskOutputDTO);
         return new JsonResponse($response, $status, $headers, $isJson);

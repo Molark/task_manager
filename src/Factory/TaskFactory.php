@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\DTO\Input\Task\SaveTaskInputDTO;
+use App\DTO\Input\Task\UpdateTaskStatusInputDTO;
 use App\DTO\Output\Task\TaskOutputDTO;
 use App\Entity\Status;
 use App\Entity\Task;
@@ -39,6 +40,20 @@ class TaskFactory
         $task->updatedAt = new  \DateTimeImmutable($data['updated_at']) ?? null;
         return $task;
     }
+    public function makeUpdateTaskStatusInputDTO(array $data): UpdateTaskStatusInputDTO
+    {
+        $task = new UpdateTaskStatusInputDTO();
+        $task->statusName = $data['status'] ?? null;
+        return $task;
+    }
+
+    public function updateTaskStatus(Task $task, UpdateTaskStatusInputDTO $updateTaskStatusInputDTO): Task
+    {
+        $status = $this->em->getRepository(Status::class)->findOneBy(['name' => $updateTaskStatusInputDTO->statusName]);
+        $task->setStatus($status);
+        return $task;
+    }
+
 
     public function makeTaskOutputDTO(Task $task):  TaskOutputDTO
     {

@@ -3,6 +3,7 @@
 namespace App\DTOValidator;
 
 use App\DTO\Input\Task\SaveTaskInputDTO;
+use App\DTO\Input\Task\UpdateTaskStatusInputDTO;
 use App\Exception\ValidateException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -13,7 +14,7 @@ class TaskDTOValidator
 
     }
 
-    public  function validate(SaveTaskInputDTO $task) : void
+    public  function validate(SaveTaskInputDTO|UpdateTaskStatusInputDTO $task) : void
  {
     $errors = $this->validator->validate($task);
     if (count($errors) > 0) {

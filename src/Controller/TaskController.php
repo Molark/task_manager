@@ -46,4 +46,13 @@ final class TaskController extends AbstractController
         $task = $this->taskService->save($saveTaskInputDTO);
         return $this->taskResponseBuilder->saveTask($task);
     }
+    #[Route('/api/tasks/{task}/status', name: 'UpdateTask', methods: ['PATCH'])]
+    public function UpdateTask(Task $task, Request $request,): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $updateTaskStatusInputDTO = $this->taskFactory->makeUpdateTaskStatusInputDTO($data);
+        $this->taskDtoValidator->validate($updateTaskStatusInputDTO);
+        $task = $this->taskService->updateStatus($task, $updateTaskStatusInputDTO);
+        return $this->taskResponseBuilder->updateTask($task);
+    }
 }
