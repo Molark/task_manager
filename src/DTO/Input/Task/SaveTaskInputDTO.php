@@ -15,7 +15,6 @@ class SaveTaskInputDTO
     public ?string $description = null;
 
 
-    #[Assert\NotNull]
     #[StatusExists]
     public string $statusName = "New";
 

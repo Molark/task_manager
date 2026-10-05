@@ -10,6 +10,8 @@ class UpdateTaskStatusInputDTO
     #[Assert\NotNull]
     #[StatusExists]
     public string $statusName = "Archive";
+    #[Assert\Type(\DateTimeImmutable::class)]
+    public ?\DateTimeImmutable $updatedAt = null;
 
 
 }

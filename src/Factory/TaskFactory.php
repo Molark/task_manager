@@ -35,15 +35,16 @@ class TaskFactory
 
         $task->title = $data['title'] ?? null;
         $task->description = $data['description'] ?? null;
-        $task->statusName = $data['status'] ?? null;
-        $task->createdAt = new \DateTimeImmutable($data['created_at']) ?? null;
-        $task->updatedAt = new  \DateTimeImmutable($data['updated_at']) ?? null;
+        $task->statusName = $data['status'] ?? "New";
+        $task->createdAt = new \DateTimeImmutable();
+        $task->updatedAt = new \DateTimeImmutable();
         return $task;
     }
     public function makeUpdateTaskStatusInputDTO(array $data): UpdateTaskStatusInputDTO
     {
         $task = new UpdateTaskStatusInputDTO();
         $task->statusName = $data['status'] ?? null;
+        $task->updatedAt = new \DateTimeImmutable();
         return $task;
     }
 
@@ -51,6 +52,7 @@ class TaskFactory
     {
         $status = $this->em->getRepository(Status::class)->findOneBy(['name' => $updateTaskStatusInputDTO->statusName]);
         $task->setStatus($status);
+        $task->setUpdatedAt($updateTaskStatusInputDTO->updatedAt);
         return $task;
     }
 
