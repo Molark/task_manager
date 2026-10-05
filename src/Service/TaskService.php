@@ -4,8 +4,10 @@ namespace App\Service;
 
 use App\DTO\Input\Task\SaveTaskInputDTO;
 use App\DTO\Input\Task\UpdateTaskStatusInputDTO;
+use App\Entity\Status;
 use App\Entity\Task;
 use App\Factory\TaskFactory;
+use App\Repository\StatusRepository;
 use App\Repository\TaskRepository;
 
 class TaskService
@@ -13,6 +15,7 @@ class TaskService
     public function __construct(
         private TaskRepository $taskRepository,
         private TaskFactory $taskFactory,
+        private StatusRepository $statusRepository,
     )
     {
     }
@@ -39,4 +42,9 @@ class TaskService
     {
         return $this->taskRepository->find($id);
     }
+    public function getTasksByStatus(string $status): ?array{
+        $status = $this->statusRepository->findOneBy(['name' => $status]);
+        return $this->taskRepository->findBy(['status' => $status]);
+}
+
 }

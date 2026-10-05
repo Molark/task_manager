@@ -26,9 +26,16 @@ final class TaskController extends AbstractController
     }
 
     #[Route('/api/tasks', name: 'GetTasks', methods: ['GET'])]
-    public function GetTasks(): JsonResponse
+    public function GetTasks(Request $request): JsonResponse
     {
-        $tasks = $this->taskService->getTasks();
+        $status = $request->query->get('status');
+
+        if ($status) {
+            $tasks = $this->taskService->getTasksByStatus($status);
+        } else {
+            $tasks = $this->taskService->getTasks();
+        }
+
 
         return $this -> taskResponseBuilder->getTasks($tasks);
     }
@@ -38,7 +45,7 @@ final class TaskController extends AbstractController
         return $this -> taskResponseBuilder->getTask($task);
     }
     #[Route('/api/tasks', name: 'CreateTask', methods: ['POST'])]
-    public function CreateTask(Request $request,): JsonResponse
+    public function CreateTask(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $saveTaskInputDTO = $this->taskFactory->makeSaveTaskInputDTO($data);
