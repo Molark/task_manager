@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Status;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -11,9 +12,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class StatusRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(
+        ManagerRegistry $registry,
+        private EntityManagerInterface $em)
     {
         parent::__construct($registry, Status::class);
+    }
+    public function save(Status $status, $isFlush = true): Status
+    {
+        $this->em->persist($status);
+        if ($isFlush) {
+            $this->em->flush();
+        }
+        return $status;
+    }
+    public function delete(Status $status, $isFlush = true): void
+    {
+        $this->em->remove($status);
+        if ($isFlush) {
+            $this->em->flush();
+        }
     }
 
 //    /**

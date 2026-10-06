@@ -13,17 +13,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: StatusRepository::class)]
 class Status
 {
-    #[Groups(groups: ['task:item'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    #[Groups(groups: ['task:item'])]
-    #[Assert\NotBlank(allowNull: null, normalizer: 'trim')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    #[Groups(groups: ['task:item'])]
-    #[Assert\NotBlank(allowNull: null, normalizer: 'trim')]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $title = null;
 

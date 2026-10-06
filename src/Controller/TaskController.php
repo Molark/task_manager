@@ -2,13 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Task;
 use App\Factory\TaskFactory;
-use App\Repository\TaskRepository;
 use App\ResponseBuilder\TaskResponseBuilder;
 use App\Service\TaskService;
 use App\DTOValidator\TaskDTOValidator;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,9 +36,13 @@ final class TaskController extends AbstractController
 
         return $this -> taskResponseBuilder->getTasks($tasks);
     }
-    #[Route('/api/tasks/{task}', name: 'GetTask', methods: ['GET'])]
-    public function GetTask(Task $task): JsonResponse
+    #[Route('/api/tasks/{taskID}', name: 'GetTask', methods: ['GET'])]
+    public function GetTask(int $taskId): JsonResponse
     {
+        $task = $this->taskService->findTaskById($taskId);
+        if (!$task) {
+            return $this->taskResponseBuilder->taskNotFound();
+        }
         return $this -> taskResponseBuilder->getTask($task);
     }
     #[Route('/api/tasks', name: 'CreateTask', methods: ['POST'])]
