@@ -1,0 +1,106 @@
+{
+    "info": {
+        "name": "Task Manager API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Tasks",
+            "item": [
+                {
+                    "name": "Get All Tasks",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/tasks"
+                    }
+                },
+                {
+                    "name": "Get Tasks by Status",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/tasks?status=New"
+                    }
+                },
+                {
+                    "name": "Get Task by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/tasks/1"
+                    }
+                },
+                {
+                    "name": "Create Task",
+                    "request": {
+                        "method": "POST",
+                        "header": [{"key": "Content-Type", "value": "application/json"}],
+                        "url": "{{baseUrl}}/api/tasks",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"title\": \"Test\",\n  \"description\": \"Test description\",\n  \"status\": \"New\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Update Task Status",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [{"key": "Content-Type", "value": "application/json"}],
+                        "url": "{{baseUrl}}/api/tasks/1/status",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"status\": \"done\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Task",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{baseUrl}}/api/tasks/1"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Statuses",
+            "item": [
+                {
+                    "name": "Get All Statuses",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/statuses"
+                    }
+                },
+                {
+                    "name": "Get Status by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": "{{baseUrl}}/api/statuses/1"
+                    }
+                },
+                {
+                    "name": "Create Status",
+                    "request": {
+                        "method": "POST",
+                        "header": [{"key": "Content-Type", "value": "application/json"}],
+                        "url": "{{baseUrl}}/api/statuses",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n  \"name\": \"done\",\n  \"title\": \"Done\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Status",
+                    "request": {
+                        "method": "DELETE",
+                        "url": "{{baseUrl}}/api/statuses/1"
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {"key": "baseUrl", "value": "http://localhost:8000"}
+    ]
+}

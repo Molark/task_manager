@@ -36,7 +36,7 @@ final class TaskController extends AbstractController
 
         return $this -> taskResponseBuilder->getTasks($tasks);
     }
-    #[Route('/api/tasks/{taskID}', name: 'GetTask', methods: ['GET'])]
+    #[Route('/api/tasks/{taskId}', name: 'GetTask', methods: ['GET'])]
     public function GetTask(int $taskId): JsonResponse
     {
         $task = $this->taskService->findTaskById($taskId);

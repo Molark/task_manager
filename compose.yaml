@@ -10,7 +10,6 @@ services:
       DATABASE_URL: postgresql://app:password@database:5432/app?serverVersion=16&charset=utf8
     command: >
       sh -c "php bin/console doctrine:migrations:migrate --no-interaction &&
-             php bin/console doctrine:fixtures:load --no-interaction &&
              php -S 0.0.0.0:8000 -t public"
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine
