@@ -85,3 +85,6 @@ docker compose exec app php bin/console doctrine:fixtures:load --no-interaction
 - Ручное тестирование через Postman
 - Запуск в Docker и проверка работоспособности
 - Проверка валидации через некорректные данные
+
+## Потраченное время
+Около 14 часов, это было мое первое знакомство с Symfony

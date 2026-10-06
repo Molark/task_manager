@@ -49,6 +49,17 @@ final class TaskController extends AbstractController
     public function CreateTask(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
+
+        if (!is_array($data)) {
+            return $this->taskResponseBuilder->invalidTaskJson();
+        }
+
+        $required = ['title', 'description'];
+        $missing = array_diff($required, array_keys($data));
+
+        if ($missing) {
+            return  $this->taskResponseBuilder->missingFieldsTaskJson($missing);
+        }
         $saveTaskInputDTO = $this->taskFactory->makeSaveTaskInputDTO($data);
         $this->taskDtoValidator->validate($saveTaskInputDTO );
         $task = $this->taskService->save($saveTaskInputDTO);
@@ -63,6 +74,16 @@ final class TaskController extends AbstractController
         }
 
         $data = json_decode($request->getContent(), true);
+
+        if (!is_array($data)) {
+            return $this->taskResponseBuilder->invalidTaskJson();
+        }
+        $required = ['status'];
+        $missing = array_diff($required, array_keys($data));
+
+        if ($missing) {
+            return  $this->taskResponseBuilder->missingFieldsTaskJson($missing);
+        }
         $updateTaskStatusInputDTO = $this->taskFactory->makeUpdateTaskStatusInputDTO($data);
         $this->taskDtoValidator->validate($updateTaskStatusInputDTO);
         $task = $this->taskService->updateStatus($task, $updateTaskStatusInputDTO);

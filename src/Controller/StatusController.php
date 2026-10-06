@@ -31,6 +31,18 @@ class StatusController
     #[Route('/api/statuses', name: 'CreateStatus', methods: ['POST'])]
     public function CreateStatus(Request $request) : JsonResponse{
         $data = json_decode($request->getContent(), true);
+
+        if (!is_array($data)) {
+            return $this->statusResponseBuilder->invalidStatusJson();
+        }
+
+        $required = ['name', 'title'];
+        $missing = array_diff($required, array_keys($data));
+
+        if ($missing) {
+            return  $this->statusResponseBuilder->missingFieldsStatusJson($missing);
+        }
+        $data = json_decode($request->getContent(), true);
         $saveStatusInputDTO = $this->statusFactory->makeSaveStatusInputDTO($data);
         $this->statusDtoValidator->validate($saveStatusInputDTO );
         $status = $this->statusService->save($saveStatusInputDTO);

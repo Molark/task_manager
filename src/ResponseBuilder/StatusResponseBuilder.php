@@ -50,6 +50,12 @@ class StatusResponseBuilder
             $statusName) . $this->taskResource->taskCollection($tasks);
         return new JsonResponse($message, $status, $headers, $isJson);
     }
-
+    public function invalidStatusJson($status = 400, $headers = [], $isJson = false): JsonResponse{
+        return new JsonResponse("Invalid JSON for status", $status, $headers, $isJson);
+    }
+    public function missingFieldsStatusJson(array $missing, $status = 422, $headers = [], $isJson = false): JsonResponse{
+        return new JsonResponse([
+            'error' => 'Missing fields: ' . implode(', ', $missing)], $status, $headers, $isJson);
+    }
 
 }

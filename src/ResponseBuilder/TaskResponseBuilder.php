@@ -41,4 +41,11 @@ class TaskResponseBuilder
     public function taskNotFound($status = 404, $headers = [], $isJson = false): JsonResponse{
         return new JsonResponse("Task not found", $status, $headers, $isJson);
     }
+    public function invalidTaskJson($status = 400, $headers = [], $isJson = false): JsonResponse{
+        return new JsonResponse("Invalid JSON for task", $status, $headers, $isJson);
+    }
+    public function missingFieldsTaskJson(array $missing, $status = 422, $headers = [], $isJson = false): JsonResponse{
+        return new JsonResponse([
+            'error' => 'Missing fields: ' . implode(', ', $missing)], $status, $headers, $isJson);
+    }
 }
