@@ -2,6 +2,7 @@
 
 namespace App\DTO\Output\Task;
 
+use App\DTO\Output\Status\StatusOutputDTO;
 use App\Entity\Status;
 use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -16,7 +17,7 @@ class TaskOutputDTO
     public ?string $description = null;
 
     #[Groups(groups: ['task:item'])]
-    public ?Status $status = null;
+    public ?StatusOutputDTO $status = null;
 
     #[Groups(groups: ['task:item'])]
     public ?\DateTimeImmutable $createdAt = null;

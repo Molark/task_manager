@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\DTOValidator\StatusDTOValidator;
 use App\Entity\Status;
 use App\Factory\StatusFactory;
+use App\Factory\TaskFactory;
 use App\ResponseBuilder\StatusResponseBuilder;
 use App\Service\StatusService;
+use App\Service\TaskService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
@@ -14,11 +16,15 @@ use Symfony\Component\Routing\Attribute\Route;
 class StatusController
 {
 
+
+
     public function __construct(
         private StatusService $statusService,
         private StatusResponseBuilder $statusResponseBuilder,
         private StatusDtoValidator $statusDtoValidator,
-        private StatusFactory $statusFactory
+        private StatusFactory $statusFactory,
+        private TaskService $taskService,
+        private TaskFactory $taskFactory,
     )
     {
     }
@@ -46,12 +52,17 @@ class StatusController
         return $this -> statusResponseBuilder->getStatus($status);
     }
     #[Route('/api/statuses/{statusId}', name: 'DeleteStaus', methods: ['DELETE'])]
-    public function DeleteTask(int $statusId): JsonResponse
+    public function DeleteStatus(int $statusId): JsonResponse
     {
 
         $status = $this->statusService->findStatusById($statusId);
         if (!$status) {
             return $this->statusResponseBuilder->statusNotFound();
+        }
+        $tasks = $this->taskService->getTasksByStatus($status->getName());
+        if ($tasks) {
+            $tasksOutputDTO=$this->taskFactory->makeTasksOutputDTO($tasks);
+            return $this->statusResponseBuilder-> deleteStatusWithTasks( $tasksOutputDTO, $status->getName());
         }
         $this->statusService->deleteStatus($status);
         return $this->statusResponseBuilder-> deleteStatus();

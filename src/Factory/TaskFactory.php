@@ -12,7 +12,10 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class TaskFactory
 {
-    public function __construct(private EntityManagerInterface $em)
+    public function __construct(
+        private EntityManagerInterface $em,
+        private StatusFactory $statusFactory
+    )
     {
     }
 
@@ -63,7 +66,7 @@ class TaskFactory
         $taskOutputDTO->id = $task->getId();
         $taskOutputDTO->title = $task->getTitle();
         $taskOutputDTO->description = $task->getDescription();
-        $taskOutputDTO->status = $task->getStatus();
+        $taskOutputDTO->status = $this->statusFactory->makeStatusOutputDTO($task->getStatus());
         $taskOutputDTO->createdAt = $task->getCreatedAt();
         $taskOutputDTO->updatedAt =$task->getUpdatedAt();
 

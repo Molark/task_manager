@@ -7,13 +7,15 @@ use App\Entity\Status;
 use App\Factory\StatusFactory;
 use App\Repository\StatusRepository;
 use App\Resource\StatusResource;
+use App\Resource\TaskResource;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class StatusResponseBuilder
 {
     public function __construct(
         private StatusFactory  $statusFactory,
-        private StatusResource $statusResource
+        private StatusResource $statusResource,
+        private TaskResource $taskResource
     )
     {
     }
@@ -42,5 +44,12 @@ class StatusResponseBuilder
     public function deleteStatus($status = 204, $headers = [], $isJson = true): JsonResponse{
         return new JsonResponse("", $status, $headers, $isJson);
     }
+    public function deleteStatusWithTasks(array $tasks, string $statusName, $status = 409, $headers = [], $isJson = true): JsonResponse{
+        $message = sprintf(
+            'Cannot delete status "%s". It is used by task(s):',
+            $statusName) . $this->taskResource->taskCollection($tasks);
+        return new JsonResponse($message, $status, $headers, $isJson);
+    }
+
 
 }
